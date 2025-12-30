@@ -4,7 +4,9 @@ import GitLink
 import com.intellij.notification.NotificationType
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
+import com.intellij.openapi.actionSystem.CommonDataKeys
 import copyToClipboard
+import getLinkTextFromEditor
 import showNotification
 import truncateText
 
@@ -14,7 +16,8 @@ class CopyPermalinkAsHtml : AnAction() {
 
         if (gitLink.hasRepository) {
             val permalink = gitLink.permalink
-            val linkText = gitLink.relativePath + gitLink.linePath
+            val editor = e.getData(CommonDataKeys.EDITOR)
+            val linkText = getLinkTextFromEditor(editor, gitLink.relativePath + gitLink.linePath)
 
             // Copy to clipboard
             copyToClipboard("<a href='$permalink'>$linkText</a>")
