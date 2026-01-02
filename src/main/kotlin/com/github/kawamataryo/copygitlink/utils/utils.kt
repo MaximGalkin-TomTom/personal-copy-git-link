@@ -31,7 +31,10 @@ fun getLinkTextFromEditor(editor: Editor?, fallback: String): String {
     return editor?.let {
         val selectionModel = it.selectionModel
         if (selectionModel.hasSelection()) {
-            selectionModel.selectedText?.trim()
+            selectionModel.selectedText
+                ?.lines()
+                ?.firstOrNull()
+                ?.trim()
         } else {
             val document = it.document
             val lineNumber = it.caretModel.logicalPosition.line
